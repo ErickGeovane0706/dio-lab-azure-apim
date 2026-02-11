@@ -1,0 +1,33 @@
+<!--
+    - Policies are applied in the order they appear.
+    - Position <base/> inside a section to inherit policies from the outer scope.
+    - Comments within policies are not preserved.
+-->
+<!-- Add policies as children to the <inbound>, <outbound>, <backend>, and <on-error> elements -->
+<policies>
+    <!-- Throttle, authorize, validate, cache, or transform the requests -->
+    <inbound>
+        <base />
+        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Token Não Autorizado" require-expiration-time="false" require-scheme="Bearer" require-signed-tokens="true">
+            <openid-config url="https://login.microsoftonline.com/7ff2d1b6-f06b-4546-8496-da3f747a00e3/v2.0/.well-known/openid-configuration" />
+            <audiences>
+                <audience>api://00d49f63-4e0b-4ea8-b5e7-4f4fb07aeb94</audience>
+            </audiences>
+            <issuers>
+                <issuer>https://sts.windows.net/7ff2d1b6-f06b-4546-8496-da3f747a00e3/</issuer>
+            </issuers>
+        </validate-jwt>
+    </inbound>
+    <!-- Control if and how the requests are forwarded to services  -->
+    <backend>
+        <base />
+    </backend>
+    <!-- Customize the responses -->
+    <outbound>
+        <base />
+    </outbound>
+    <!-- Handle exceptions and customize error responses  -->
+    <on-error>
+        <base />
+    </on-error>
+</policies>
